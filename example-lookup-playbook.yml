@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+    - name: "echo a consistently hashed password"
+      debug: msg="{{ lookup('hash', item.user) }}"
+      with_items:
+        - user: aaron

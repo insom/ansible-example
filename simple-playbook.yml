@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tasks:
+  - name: touching a file
+    touch:
+      where: /tmp/bar

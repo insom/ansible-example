@@ -1,0 +1,26 @@
+#!/usr/bin/python
+def main():
+
+    module = AnsibleModule(
+        argument_spec=dict(
+            where=dict(required=False, default='/tmp/quux'),
+        ),
+        supports_check_mode=False
+    )
+
+    changed = False
+    msg = "Did nothing"
+
+    if not os.path.exists(module.params['where']):
+        try:
+            open(module.params['where'], 'w').close()
+            msg = "Created!"
+            changed = True
+        except:
+            module.fail_json(msg="couldn't create file")
+
+    module.exit_json(msg=msg, changed=changed)
+
+# this is magic, see lib/ansible/module_common.py
+#<<INCLUDE_ANSIBLE_MODULE_COMMON>>
+main()

@@ -1,0 +1,20 @@
+---
+- hosts: all
+  tasks:
+    - name: databases
+      mysql_db: db={{ item }} state=present
+      with_items:
+        - one
+        - two
+
+    - name: grants
+      mysql_user:
+        host: {{ item.host }}
+        name: {{ item.user }}
+        password: {{ lookup('hash', item.user) }}
+        priv: {{ item.database }}.*:ALL
+        state: present
+      with_items:
+        - host: localhost
+          user: aaron
+          database: one
